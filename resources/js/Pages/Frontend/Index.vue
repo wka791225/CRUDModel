@@ -38,14 +38,12 @@ const addTable = () => {
   };
   firstTable.value.push(arr);
 };
-
 </script>
 
 <template>
   <section class="p-5">
-    {{ firstTable }}
     <div class="flex gap-3 justify-center">
-      <div>
+      <div class="hidden">
         <span>條件設定</span>
         <div class=" flex gap-5">
           <label for="create" class="flex items-center justify-center gap-2">
@@ -128,61 +126,6 @@ const addTable = () => {
         </template>
       </BackendTableList>
     </div>
-    <!-- <div v-for="item in firstTable" :key="item.id" class="p-5">
-      <div class="flex flex-col items-start">
-        <span>資料表選擇</span>
-        <select v-model="firstTable.tableName" name="" id="" @change="columnList">
-          <option value="">請選擇</option>
-          <option v-for="item in mainTable" :key="item.id" :value="item.name">{{ item.name }}</option>
-        </select>
-      </div>
-      <BackendTableList>
-        <template #top>
-          <div class="flex justify-end flex-wrap">
-            <span class="text-4xl font-bold w-full ">
-              資料欄位
-            </span>
-          </div>
-        </template>
-
-        <template #thead>
-          <th scope="col" class="backend-table-th ">
-            欄位/備註
-          </th>
-          <th scope="col" class="backend-table-th">
-            欄位屬性
-          </th>
-          <th scope="col" class="backend-table-th ">
-            欄位屬性是否空值
-          </th>
-          <th scope="col" class="backend-table-th ">
-            前台validate
-          </th>
-          <th scope="col" class="backend-table-th ">
-            前台資料名稱
-          </th>
-        </template>
-        <template #tbody>
-          <tr v-for=" (col, index) in firstTable.columns" :key="index">
-            <td class="backend-table-td break-all w-[130px]">
-              {{ col.name }} / {{ col.comment }}
-            </td>
-            <td class="backend-table-td break-all w-[130px]">
-              {{ col.type }}
-            </td>
-            <td class="backend-table-td w-[100px]">
-              {{ col.nullable }}
-            </td>
-            <td class="backend-table-td ">
-              <input type="checkbox" v-model="col.required" name="" id="">
-            </td>
-            <td class="backend-table-td">
-              <input type="text" v-model="col.requestName" name="" id="">
-            </td>
-          </tr>
-        </template>
-      </BackendTableList>
-    </div> -->
   </section>
 </template>
 
