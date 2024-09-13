@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 隱藏input的number類型的增加減少按鈕 */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* 清除Edge密碼出現的眼睛 */
+input[type=password]::-ms-reveal {
+  display: none;
+}
+
+input[type=password]::-ms-clear {
+  display: none;
+}
+
+/* 後台頁面容器 */
+.backend-container {
+  @apply max-w-7xl mx-auto py-6 space-y-6;
+}
+
+/* 後台卡片容器樣式 */
+.backend-card-container {
+  @apply relative overflow-x-auto flex flex-col gap-4 mx-auto sm:p-8 p-4 sm:rounded-lg   text-lg;
+}
+
+/* 後台表格樣式 */
+.backend-table-border {
+  @apply overflow-x-auto rounded-[5px] text-xl;
+}
+
+/* 後台表格內容格樣式 */
+.backend-table-th {
+  @apply border border-gray-700 [&:not(:last-child)]:border-r-white px-2 py-3;
+}
+
+.backend-table-td {
+  @apply border border-gray-700 px-2 py-2;
+}
+
+/* 所見即所得呈現區塊樣式 */
+.wysiwyg-customize-block img {
+  display: inline-block;
+  height: revert-layer;
+}
+
+.wysiwyg-customize-block iframe {
+  display: inline-block;
+}
+
+.wysiwyg-customize-block ul {
+  list-style: disc;
+  padding-left: 40px;
+}
+
+.wysiwyg-customize-block ol {
+  list-style: decimal;
+  padding-left: 40px;
+}
+
+.wysiwyg-customize-block a {
+  text-decoration: underline;
+  word-wrap: break-word;
+}
+
+@media (max-width: 640px) {
+  .wysiwyg-customize-block img {
+    height: auto;
+  }
+
+  .wysiwyg-customize-block iframe {
+    width: 100%;
+  }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  @apply transition-opacity;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  @apply opacity-0;
+}
