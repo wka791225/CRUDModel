@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use ReflectionClass;
 use ReflectionMethod;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Validator;
 
 class ModelTestController extends Controller
 {
@@ -91,5 +92,53 @@ class ModelTestController extends Controller
         }
 
         return $relations;
+    }
+    public function doController(Request $request) 
+    {
+
+        // 建立controller
+        // 寫 validate
+        
+        $data = $request->all();
+        $validationRules = $this->generateValidationRules($data);
+
+        $validator = Validator::make($request->all(), $validationRules);
+        dd($validationRules );
+
+        
+    }
+    // 驗證字串
+    private function generateValidationRules($data)
+    {
+        $rules = [];
+
+        foreach ($data as $table) {
+            foreach ($table['columns'] as $column) {
+                $rule = [];
+
+                if ($column['required']) {
+                    $rule[] = 'required';
+                } else if (!$column['nullable']) {
+                    $rule[] = 'required';
+                }
+
+                switch ($column['type']) {
+                    case 'string':
+                        $rule[] = 'string';
+                        break;
+                    case 'date':
+                        $rule[] = 'date';
+                        break;
+                    case 'text':
+                        $rule[] = 'string';
+                        break;
+                    // 根據需要添加更多類型
+                }
+
+                $rules[$column['requestName']] = implode('|', $rule);
+            }
+        }
+
+        return $rules;
     }
 }

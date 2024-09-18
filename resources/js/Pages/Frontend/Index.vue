@@ -1,10 +1,12 @@
 <script setup>
+import { sendRequest } from '@/Composables/useRequest';
 const props = defineProps({
   response: Object,
 });
 const rtData = computed(() => props.response?.rt_data ?? {});
 const modelData = computed(() => rtData.value.model ?? []);
 const mainTable = ref([]);
+
 const firstTable = ref([
   {
     id: 1,
@@ -15,17 +17,27 @@ const firstTable = ref([
 ]);
 
 modelData.value.forEach((item, index) => {
-  mainTable.value.push(
-    {
-      id: index + 1,
-      name: item.modelName,
-    },
-  );
+  if (item) {
+    mainTable.value.push(
+      {
+        id: index + 1,
+        name: item.modelName,
+      },
+    );
+  } else {
+    return;
+  }
 });
 
 const columnList = (id) => {
   const table = firstTable.value.find((item) => item.id === id);
+  if (!table) {
+    return;
+  }
   const tableData = modelData.value.find((item) => item.modelName === table.tableName);
+  if (!tableData) {
+    return;
+  }
   table.columns = tableData.columns;
 };
 
@@ -38,35 +50,21 @@ const addTable = () => {
   };
   firstTable.value.push(arr);
 };
+const submitTable = () => {
+  const table = firstTable.value;
+  sendRequest(route('data.createController'), 'post', {
+    data: table,
+  });
+};
 </script>
 
 <template>
   <section class="p-5">
     <div class="flex gap-3 justify-center">
-      <div class="hidden">
-        <span>條件設定</span>
-        <div class=" flex gap-5">
-          <label for="create" class="flex items-center justify-center gap-2">
-            <input type="checkbox" name="" id="create">
-            <span>新增</span>
-          </label>
-          <label for="read" class="flex items-center justify-center gap-2">
-            <input type="checkbox" name="" id="read">
-            <span>讀取</span>
-          </label>
-          <label for="update" class="flex items-center justify-center gap-2">
-            <input type="checkbox" name="" id="update">
-            <span>修改</span>
-          </label>
-          <label for="delete" class="flex items-center justify-center gap-2">
-            <input type="checkbox" name="" id="delete">
-            <span>刪除</span>
-          </label>
-        </div>
-      </div>
       <button type="button" class="bg-amber-200 rounded-full p-3 hover:bg-amber-200/50" @click="addTable">
-        <span class="text-xl font-bold ">加入其他表</span>
+        <span class="text-xl font-bold p-3">加入其他表</span>
       </button>
+      <button type="button" @click="submitTable">送出</button>
     </div>
     <div v-for="item in firstTable" :key="item.id" class="p-5">
       <div class="flex w-full justify-between">
@@ -84,6 +82,11 @@ const addTable = () => {
             <span class="text-4xl font-bold w-full ">
               資料欄位
             </span>
+          </div>
+          <span>檔案上傳欄位，名稱請填寫pathName，檔案路徑請填寫filePath</span>
+          <div v-if="item && item.id !== 1" class="flex flex-col">
+            <span>與哪張資料表關聯</span>
+            <input type="text" name="" id="">
           </div>
         </template>
 

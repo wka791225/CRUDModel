@@ -10,3 +10,4 @@ Route::get('/', function () {
     ]);
 });
 Route::get('/test-model', [ModelTestController::class, 'index'])->name('data.allModelsList');
+Route::post('/create-controller',[ModelTestController::class, 'doController'])->name('data.createController');
