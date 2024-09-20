@@ -232,7 +232,7 @@ class ModelTestController extends Controller
             $delete .= '$' . strtolower($table['tableName']) . '= ' . $table['tableName'] . '::find($id);' . "\n";
             foreach ($table['columns'] as $column) {
                 if ($column['requestName'] === 'filePath') { 
-                    $delete .= '$this->filesService->fileDelete($'.strtolower($table['tableName']).'->filePath);' . "\n";
+                    $delete .= '$this->filesService->fileDelete($'.strtolower($table['tableName']).'->'.$column['name'].');' . "\n";
                 }
             }
             $delete .= '$' . strtolower($table['tableName']) . '->delete();' . "\n";

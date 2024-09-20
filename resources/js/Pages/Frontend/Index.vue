@@ -137,7 +137,7 @@ const downloadFile = (data) => {
               <input type="checkbox" v-model="col.required" name="" id="">
             </td>
             <td class="backend-table-td">
-              <input type="text" v-model="col.requestName" name="" id="">
+              <input type="text" v-model="col.requestName" name="" id="" required>
             </td>
           </tr>
         </template>
