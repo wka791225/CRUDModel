@@ -50,18 +50,32 @@ const addTable = () => {
   };
   firstTable.value.push(arr);
 };
-const submitTable = () => {
+const submitTable = async () => {
   const table = firstTable.value;
-  sendRequest(route('data.createController'), 'post', {
+  const response = await sendRequest(route('data.createController'), 'post', {
     data: table,
   });
+  downloadFile(response);
 };
+const downloadFile = (data) => {
+  const blob = new Blob([data], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'download.txt';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+};
+
+
 </script>
 
 <template>
   <section class="p-5">
     <div class="flex gap-3 justify-center">
-      <button type="button" class="bg-amber-200 rounded-full p-3 hover:bg-amber-200/50" @click="addTable">
+      <button type="button" class="bg-amber-200 rounded-full p-3 hover:bg-amber-200/50 hidden" @click="addTable">
         <span class="text-xl font-bold p-3">加入其他表</span>
       </button>
       <button type="button" @click="submitTable">送出</button>

@@ -97,7 +97,6 @@ class ModelTestController extends Controller
     {
 
         // 建立controller
-
         $pathTest = 'public function __construct(protected FilesService $filesService,)
         {
         }'."\n";
@@ -114,10 +113,10 @@ class ModelTestController extends Controller
         $edit = 'public function update(Request $request){'. "\n" . $validationString . "\n" . $editSql."\n" ."}";
         // 刪除
         $delete = $this->generateDeleteSQL($data);
-        // 合併所有字串，並製作成php檔案
+        // 合併所有字串，並製作成txt檔
         $allText = $pathTest."\n" .$create."\n" .$edit."\n" .$delete;
-        
-        
+
+        return back()->with('message', $allText);
     }
     // 驗證字串
     private function generateValidationString($data)
